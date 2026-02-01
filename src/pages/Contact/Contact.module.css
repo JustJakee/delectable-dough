@@ -1,0 +1,68 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header {
+  max-width: 42rem;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.form {
+  background: var(--color-vanilla);
+  padding: var(--space-5);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.label {
+  font-weight: 600;
+}
+
+.input,
+.textarea {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-2);
+  padding: var(--space-3);
+  font: inherit;
+}
+
+.button {
+  margin-top: var(--space-2);
+  background: var(--color-clay);
+  color: var(--color-vanilla);
+  border: none;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-2);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.info {
+  padding: var(--space-5);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--color-line);
+  background: linear-gradient(
+    135deg,
+    var(--color-vanilla),
+    var(--color-cream)
+  );
+}
+
+.info a {
+  color: inherit;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
