@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { assetUrls } from "../../content/assets";
+import OrderingSteps from "../AboutPage/OrderingSteps";
 import styles from "./Home.module.css";
 
 const categories = [
@@ -113,6 +114,8 @@ export default function Home() {
           </Link>
         </aside>
       </section>
+
+      <OrderingSteps />
 
       <section className={styles.productSection}>
         <div className={styles.productHeader}>

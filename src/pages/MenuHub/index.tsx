@@ -6,10 +6,8 @@ export default function MenuHub() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1>Menus</h1>
-        <p>
-          Browse our daily case or plan ahead with seasonal and catering menus.
-        </p>
+        <h1>What We Bake</h1>
+        <p>Browse our menu collection and seasonal offerings.</p>
       </header>
       <div className={styles.grid}>
         {menus.map((menu) => (

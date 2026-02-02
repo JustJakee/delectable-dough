@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "../pages/Home";
 import News from "../pages/News";
-import About from "../pages/About";
+import AboutPage from "../pages/AboutPage/AboutPage";
 import MenuHub from "../pages/MenuHub";
 import MenuDetail from "../pages/MenuDetail";
 import Contact from "../pages/Contact";
@@ -14,10 +14,10 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "news", element: <News /> },
-      { path: "about", element: <About /> },
+      { path: "about", element: <AboutPage /> },
       { path: "menu", element: <MenuHub /> },
       { path: "menu/:menuId", element: <MenuDetail /> },
-      { path: "contact", element: <Contact /> }
-    ]
-  }
+      { path: "contact", element: <Contact /> },
+    ],
+  },
 ]);

@@ -5,10 +5,10 @@ import styles from "./Header.module.css";
 
 const navItems = [
   { label: "Home", to: "/" },
-  { label: "Menu", to: "/menu" },
   { label: "News", to: "/news" },
+  { label: "What We Bake", to: "/menu" },
   { label: "About", to: "/about" },
-  { label: "Contact", to: "/contact" }
+  { label: "Contact", to: "/contact" },
 ];
 
 export default function Header() {

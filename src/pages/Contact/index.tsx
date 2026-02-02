@@ -47,7 +47,6 @@ export default function Contact() {
             Send request
           </button>
         </form>
-
       </div>
     </div>
   );

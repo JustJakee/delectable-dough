@@ -47,6 +47,11 @@
   font-size: var(--font-size-4);
 }
 
+.sectionDescription {
+  margin-bottom: var(--space-3);
+  color: var(--color-olive);
+}
+
 .list {
   list-style: none;
   padding: 0;
@@ -63,6 +68,38 @@
 .list li:last-child {
   border-bottom: none;
   padding-bottom: 0;
+}
+
+.item {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.itemHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: baseline;
+}
+
+.itemName {
+  font-weight: 600;
+}
+
+.itemAvailability {
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-olive);
+}
+
+.itemMeta {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.itemMeta p {
+  margin: 0;
 }
 
 .cta {

@@ -1,0 +1,598 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.pageHeader {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.pageTitle {
+  margin: 0;
+  max-width: 100%;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+  margin: 0;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 46rem;
+}
+
+.sectionTitle {
+  margin: 0;
+}
+
+.sectionSubtitle {
+  margin: 0;
+  color: #2b2b2b;
+}
+
+.heroSection {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.heroContent {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.heroTitle {
+  margin: 0;
+}
+
+.heroSubtitle {
+  margin: 0;
+  font-size: var(--font-size-3);
+  color: #2b2b2b;
+  max-width: 38rem;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.buttonPrimary,
+.buttonSecondary {
+  border-radius: 999px;
+  padding: var(--space-3) var(--space-5);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  border: none;
+}
+
+.buttonPrimary {
+  background: var(--color-ddbc-blue);
+  color: var(--color-vanilla);
+  box-shadow: 0 12px 30px rgba(52, 54, 143, 0.28);
+}
+
+.buttonPrimary:hover {
+  transform: translateY(-2px);
+}
+
+.buttonSecondary {
+  background: var(--color-vanilla);
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+
+.buttonSecondary:hover {
+  transform: translateY(-2px);
+}
+
+.heroMedia {
+  position: relative;
+  min-height: 240px;
+  border-radius: var(--radius-4);
+  background: linear-gradient(135deg, #fff9f3, var(--color-cream));
+  border: 1px solid var(--color-line);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.heroCanvas {
+  position: absolute;
+  inset: 0;
+}
+
+.heroCircle {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: rgba(52, 54, 143, 0.12);
+  top: -40px;
+  left: -30px;
+}
+
+.heroCircleAlt {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(52, 54, 143, 0.08);
+  bottom: -60px;
+  right: -40px;
+}
+
+.heroStripe {
+  position: absolute;
+  width: 60%;
+  height: 14px;
+  background: rgba(52, 54, 143, 0.1);
+  transform: rotate(-6deg);
+  top: 52%;
+  left: 18%;
+}
+
+.heroBadge {
+  position: absolute;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  background: var(--color-vanilla);
+  border-radius: var(--radius-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-soft);
+  max-width: 240px;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.heroBadgeTitle {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+}
+
+.heroBadgeText {
+  margin: 0;
+  font-size: var(--font-size-2);
+}
+
+.storySection {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.storyGrid {
+  display: grid;
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+.storyCard {
+  background: var(--color-vanilla);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-4);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.storyCard p {
+  margin: 0;
+}
+
+.storyPager {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+  width: 100%;
+}
+
+.storyPagerButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-start;
+  width: 100%;
+  align-self: flex-start;
+  margin-left: 0;
+}
+
+.storyPagerStatus {
+  margin: 0;
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+  align-self: flex-start;
+}
+
+.storyPagerButton {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-1);
+  margin: 0;
+  align-self: flex-start;
+}
+
+.highlightList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.valuesRow {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.valueCard {
+  background: #f7f4f0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.valueTitle {
+  margin: 0;
+  font-size: var(--font-size-2);
+}
+
+.valueText {
+  margin: 0;
+  font-size: var(--font-size-1);
+  color: #2a2a2a;
+}
+
+.storyPortrait {
+  margin: 0;
+  display: grid;
+  height: 100%;
+  border-radius: var(--radius-4);
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-soft);
+}
+
+.storyPortrait img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+}
+
+.testimonialsSection {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.carousel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.carouselControls {
+  display: grid;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.carouselButtons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.carouselButton {
+  border: 1px solid var(--color-line);
+  background: var(--color-vanilla);
+  color: var(--color-ink);
+  border-radius: 999px;
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.carouselButton:hover {
+  transform: translateY(-2px);
+}
+
+.carouselStatus {
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+}
+
+.dotRow {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.dotButton {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line);
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.dotButton:hover {
+  transform: scale(1.05);
+}
+
+.dotButtonActive {
+  background: var(--color-ddbc-blue);
+  border-color: var(--color-ddbc-blue);
+}
+
+.testimonialGrid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.testimonialCard {
+  background: var(--color-vanilla);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.testimonialRating {
+  font-size: var(--font-size-3);
+  letter-spacing: 0.08em;
+  color: #e2b84f;
+}
+
+.testimonialQuote {
+  margin: 0;
+  font-size: var(--font-size-2);
+}
+
+.testimonialMeta {
+  margin: 0;
+  font-weight: 600;
+}
+
+.testimonialLocation {
+  color: var(--color-olive);
+  font-weight: 500;
+  margin-left: var(--space-2);
+}
+
+.testimonialDate {
+  margin: 0;
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+}
+
+.readMoreRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.readMoreLink {
+  color: var(--color-clay);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.readMoreLink:hover {
+  text-decoration: underline;
+}
+
+.orderingSection {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.stepsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.stepCard {
+  background: var(--color-vanilla);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.stepNumber {
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-olive);
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: var(--font-size-3);
+}
+
+.stepText {
+  margin: 0;
+}
+
+.deliveryNote {
+  margin: 0;
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+}
+
+.finalCta {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.finalCtaCard {
+  background: linear-gradient(140deg, #ffffff, #f6f2ed);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-4);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.finalCtaCopy {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.finalCtaCopy p {
+  margin: 0;
+}
+
+.finalCtaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.buttonPrimary:focus-visible,
+.buttonSecondary:focus-visible,
+.carouselButton:focus-visible,
+.dotButton:focus-visible,
+.readMoreLink:focus-visible,
+.testimonialCard:focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+}
+
+.carousel:focus-visible {
+  outline: 2px solid rgba(52, 54, 143, 0.4);
+  outline-offset: 6px;
+}
+
+@media (min-width: 768px) {
+  .heroSection {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  .storyGrid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  .valuesRow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .testimonialGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stepsList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .carouselControls {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .carouselStatus {
+    justify-self: center;
+  }
+
+  .dotRow {
+    justify-self: end;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonialGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stepsList {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .finalCtaCard {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heroSection,
+  .storySection,
+  .testimonialsSection,
+  .orderingSection,
+  .finalCta {
+    animation: fadeInUp 0.6s ease both;
+  }
+
+  .storySection {
+    animation-delay: 0.08s;
+  }
+
+  .testimonialsSection {
+    animation-delay: 0.12s;
+  }
+
+  .orderingSection {
+    animation-delay: 0.16s;
+  }
+
+  .finalCta {
+    animation-delay: 0.2s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buttonPrimary,
+  .buttonSecondary,
+  .carouselButton,
+  .dotButton {
+    transition: none;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

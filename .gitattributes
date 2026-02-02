@@ -1,2 +1,2 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Enforce CRLF line endings for text files
+* text eol=crlf
