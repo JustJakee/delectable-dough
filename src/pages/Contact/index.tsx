@@ -9,10 +9,10 @@ export default function Contact() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1>Contact</h1>
+        <h1>Leave us a message!</h1>
         <p>
-          For pre-orders, events, and wholesale inquiries, send us a note and we
-          will follow up within two business days.
+          For pre-orders, events, and general questions, send us a note and we
+          will follow up within a business days.
         </p>
       </header>
       <div className={styles.grid}>
@@ -48,15 +48,6 @@ export default function Contact() {
           </button>
         </form>
 
-        <div className={styles.info}>
-          <h2>Visit the bakehouse</h2>
-          <p>123 Flour Street, Nashville, TN</p>
-          <p>Tue-Sun, 7am-2pm</p>
-          <p>(615) 555-0118</p>
-          <p>
-            <a href="mailto:hello@delectabledough.com">hello@delectabledough.com</a>
-          </p>
-        </div>
       </div>
     </div>
   );

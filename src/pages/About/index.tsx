@@ -4,35 +4,19 @@ export default function About() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1>About</h1>
+        <h1>The Strudel Lady</h1>
         <p>
-          Delectable Dough is a small bakery focused on slow fermentation, real
-          butter, and bright seasonal flavors.
+          The story of Delectable Dough Baking Company began many years ago. I
+          think you could safely say it started from a young girl’s passion,
+          after experiencing her first baking class. That young girl was me. I
+          loved creating new recipes and trying them out on my family and
+          friends. My father encouraged me to recreate my Bobba’s strudel
+          recipe. Bakers of that generation usually didn’t write down their
+          recipes, so it took many hours of experimentation to perfect. One day,
+          my dad said “Jodie, that’s it! You finally did it.” And so, The
+          Strudel Lady” was born.
         </p>
       </header>
-      <section className={styles.story}>
-        <div>
-          <h2>Our approach</h2>
-          <p>
-            We proof dough overnight, fold by hand, and bake in short runs to
-            keep each batch crisp and warm.
-          </p>
-        </div>
-        <div>
-          <h2>The bake team</h2>
-          <p>
-            A tight crew of bakers, pastry chefs, and baristas who care about the
-            details, from flour sourcing to final glaze.
-          </p>
-        </div>
-        <div>
-          <h2>Community table</h2>
-          <p>
-            Partnering with local farmers and hosting weekend tastings throughout
-            the year.
-          </p>
-        </div>
-      </section>
     </div>
   );
 }

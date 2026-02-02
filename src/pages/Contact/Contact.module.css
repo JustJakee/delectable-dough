@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  align-items: center;
+  text-align: center;
 }
 
 .header {
@@ -11,6 +13,8 @@
 .grid {
   display: grid;
   gap: var(--space-6);
+  width: min(860px, 100%);
+  justify-items: center;
 }
 
 .form {
@@ -21,10 +25,15 @@
   box-shadow: var(--shadow-soft);
   display: grid;
   gap: var(--space-3);
+  justify-items: center;
+  text-align: center;
+  width: min(600px, 100%);
 }
 
 .label {
   font-weight: 600;
+  width: min(520px, 100%);
+  text-align: left;
 }
 
 .input,
@@ -33,6 +42,7 @@
   border-radius: var(--radius-2);
   padding: var(--space-3);
   font: inherit;
+  width: min(520px, 100%);
 }
 
 .button {
@@ -55,14 +65,9 @@
     var(--color-vanilla),
     var(--color-cream)
   );
+  width: min(600px, 100%);
 }
 
 .info a {
   color: inherit;
-}
-
-@media (min-width: 900px) {
-  .grid {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
 }
