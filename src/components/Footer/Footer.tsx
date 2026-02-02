@@ -9,9 +9,37 @@ export default function Footer() {
           <p className={styles.tagline}>Acclaimed for our Old-Fashioned Apple Strudel.</p>
         </div>
         <div>
-          <p className={styles.label}>Visit</p>
-          <p>123 Flour Street, Nashville, TN</p>
-          <p>Tue-Sun, 7am-2pm</p>
+          <p className={styles.label}>Visit Our Socials</p>
+          <ul className={styles.socials}>
+            <li>
+              <a
+                href="https://www.facebook.com/DelectableDough/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Delectable Dough on Facebook"
+              >
+                <i
+                  className={`fa-brands fa-facebook ${styles.socialIcon}`}
+                  aria-hidden="true"
+                />
+                Facebook
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/delectabledough"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Delectable Dough on Instagram"
+              >
+                <i
+                  className={`fa-brands fa-instagram ${styles.socialIcon}`}
+                  aria-hidden="true"
+                />
+                Instagram
+              </a>
+            </li>
+          </ul>
         </div>
         <div>
           <p className={styles.label}>Contact</p>
@@ -22,7 +50,17 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>Wholesale and event orders welcome. Reach out for seasonal menus.</p>
+        <p>Wholesale and event orders welcome. Reach out for seasonal menus or special requests.</p>
+        <p>
+          © 2026 Copyright{" "}
+          <a
+            href="https://linkedin.com/in/jake-bertish"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Jake Bertish
+          </a>
+        </p>
       </div>
     </footer>
   );

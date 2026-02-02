@@ -5,12 +5,30 @@ import OrderingSteps from "../AboutPage/OrderingSteps";
 import styles from "./Home.module.css";
 
 const categories = [
-  "Strudel",
-  "Cookies",
-  "Pies",
-  "Cakes",
-  "Pastries",
-  "Cupcakes",
+  {
+    label: "Strudel",
+    icon: "https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/apple_dessert_16.png"
+  },
+  {
+    label: "Cookies",
+    icon: "https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/ChocCookie.png"
+  },
+  {
+    label: "Pies",
+    icon: "https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/Pie.png"
+  },
+  {
+    label: "Cakes",
+    icon: "https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/Cake1.png"
+  },
+  {
+    label: "Pastries",
+    icon: "https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/Pastries.png"
+  },
+  {
+    label: "Cupcakes",
+    icon: "https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/CupCake.png"
+  }
 ];
 
 const filterOptions = [
@@ -26,32 +44,32 @@ const products = [
     tags: ["best"],
   },
   {
-    id: "soft-pretzels",
-    name: "Soft pretzels",
+    id: "choc-pretzels",
+    name: "Chocolate Covered pretzels",
     image: assetUrls.productPlaceholder,
     tags: ["best"],
   },
   {
     id: "baguette-rolls",
-    name: "Baguette soft breads",
+    name: "Apple Strudel",
     image: assetUrls.productPlaceholder,
     tags: ["favorite"],
   },
   {
     id: "hazelnut-bars",
-    name: "Chocolate hazelnut bars",
+    name: "Gooey Butter Cake",
     image: assetUrls.productPlaceholder,
     tags: ["favorite"],
   },
   {
     id: "almond-croissant",
-    name: "Almond croissant",
+    name: "Macaroons",
     image: assetUrls.productPlaceholder,
     tags: ["best"],
   },
   {
     id: "croissant-au-beurre",
-    name: "Croissant au beurre",
+    name: "Kamish Bread",
     image: assetUrls.productPlaceholder,
     tags: ["favorite"],
   },
@@ -91,18 +109,21 @@ export default function Home() {
           <p className={styles.categoryTitle}>What we bake</p>
           <ul className={styles.categoryList}>
             {categories.map((category) => (
-              <li key={category} className={styles.categoryItem}>
-                <span className={styles.categoryIcon} aria-hidden="true" />
-                <span className={styles.categoryLabel}>{category}</span>
-                {category === "Strudel" ? (
+              <li key={category.label} className={styles.categoryItem}>
+                <img
+                  className={styles.categoryIcon}
+                  src={category.icon}
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span className={styles.categoryLabel}>{category.label}</span>
+                {category.label === "Strudel" ? (
                   <>
-                    <span
-                      className={`${styles.signatureIcon} material-symbols-outlined`}
+                    <i
+                      className={`${styles.signatureIcon} fa-solid fa-star`}
                       aria-hidden="true"
-                      title="Signature"
-                    >
-                      star_rate
-                    </span>
+                      title="Signature item"
+                    />
                     <span className={styles.srOnly}>Signature</span>
                   </>
                 ) : null}
