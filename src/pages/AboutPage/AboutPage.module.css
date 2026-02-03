@@ -15,7 +15,7 @@
 
 .pageTitle {
   margin: 0;
-  max-width: 100%;
+  max-width: 40rem;
 }
 
 .noWrap {
@@ -34,6 +34,7 @@
   display: grid;
   gap: var(--space-2);
   max-width: 46rem;
+  text-align: center;
 }
 
 .sectionTitle {
@@ -272,8 +273,11 @@
 
 .storyPortrait {
   margin: 0;
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
+  min-height: 320px;
   border-radius: var(--radius-4);
   overflow: hidden;
   border: 1px solid var(--color-line);
@@ -281,10 +285,9 @@
 }
 
 .storyPortrait img {
-  width: 100%;
-  height: 100%;
-  min-height: 320px;
-  object-fit: cover;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
 }
 
 .testimonialsSection {
@@ -298,8 +301,8 @@
 }
 
 .carouselControls {
-  display: grid;
-  gap: var(--space-3);
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -504,6 +507,10 @@
 }
 
 @media (min-width: 768px) {
+  .sectionHeader {
+    text-align: left;
+  }
+
   .heroSection {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   }
@@ -525,15 +532,7 @@
   }
 
   .carouselControls {
-    grid-template-columns: auto 1fr auto;
-  }
-
-  .carouselStatus {
-    justify-self: center;
-  }
-
-  .dotRow {
-    justify-self: end;
+    justify-content: flex-start;
   }
 }
 

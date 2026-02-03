@@ -38,7 +38,7 @@ export default function AboutPage({
             className={styles.buttonPrimary}
             onClick={handleViewMenu}
           >
-            View Menu
+            View Our Products
           </button>
           <button
             type="button"

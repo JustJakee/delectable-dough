@@ -162,43 +162,6 @@ export default function Testimonials() {
         role="region"
         aria-label="Testimonials carousel"
       >
-        <div className={styles.carouselControls}>
-          <div className={styles.carouselButtons}>
-            <button
-              type="button"
-              className={styles.carouselButton}
-              onClick={handlePrev}
-              aria-label="Previous testimonials"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              className={styles.carouselButton}
-              onClick={handleNext}
-              aria-label="Next testimonials"
-            >
-              Next
-            </button>
-          </div>
-          <div className={styles.carouselStatus} aria-live="polite">
-            Page {pageIndex + 1} of {totalPages}
-          </div>
-          <div className={styles.dotRow} role="group" aria-label="Page select">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={`testimonial-page-${index}`}
-                type="button"
-                className={`${styles.dotButton} ${
-                  index === pageIndex ? styles.dotButtonActive : ""
-                }`}
-                onClick={() => setPageIndex(index)}
-                aria-label={`Go to page ${index + 1}`}
-                aria-current={index === pageIndex ? "true" : undefined}
-              />
-            ))}
-          </div>
-        </div>
         <div className={styles.testimonialGrid}>
           {visibleTestimonials.map((testimonial) => (
             <article
@@ -228,6 +191,26 @@ export default function Testimonials() {
               ) : null}
             </article>
           ))}
+        </div>
+        <div className={styles.carouselControls}>
+          <div className={styles.carouselButtons}>
+            <button
+              type="button"
+              className={styles.carouselButton}
+              onClick={handlePrev}
+              aria-label="Previous testimonials"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              className={styles.carouselButton}
+              onClick={handleNext}
+              aria-label="Next testimonials"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </section>

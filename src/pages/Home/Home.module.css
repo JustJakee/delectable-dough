@@ -59,6 +59,7 @@
   display: grid;
   gap: var(--space-4);
   box-shadow: var(--shadow-soft);
+  text-align: center;
 }
 
 .categoryTitle {
@@ -90,8 +91,8 @@
 }
 
 .categoryIcon {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   border-radius: 0;
   border: none;
   background: transparent;
@@ -180,7 +181,7 @@
 }
 
 .searchInput {
-  width: min(420px, 100%);
+  width: min(480px, 100%);
   border-radius: 999px;
   border: 1px solid var(--color-line);
   padding: var(--space-3) var(--space-4);
@@ -206,18 +207,23 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  position: relative;
 }
 
 .productImageWrap {
   border-radius: var(--radius-4);
   overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #f8f4ef, #ffffff);
+  border: 1px solid rgba(52, 54, 143, 0.08);
 }
 
 .productImageWrap img {
   display: block;
   width: 100%;
-  height: 300px;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .productMeta {
@@ -240,6 +246,104 @@
   border-radius: 999px;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.detailsRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.detailsButton {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-clay);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 10;
+  width: min(320px, 90vw);
+  max-width: 100%;
+  background: var(--color-vanilla);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.popoverGroup {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.popoverTitle {
+  margin: 0;
+  font-weight: 600;
+}
+
+.popoverList {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: var(--space-1);
+  overflow-wrap: anywhere;
+}
+
+.popoverLink {
+  color: var(--color-clay);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.popoverLink:hover {
+  text-decoration: underline;
+}
+
+.pagination {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.paginationButton {
+  border: 1px solid var(--color-line);
+  background: var(--color-vanilla);
+  color: var(--color-ink);
+  border-radius: 999px;
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.paginationButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.paginationStatus {
+  margin: 0;
+  font-size: var(--font-size-1);
+  color: var(--color-olive);
+}
+
+.detailsButton:focus-visible,
+.paginationButton:focus-visible,
+.popoverLink:focus-visible,
+.orderButton:focus-visible,
+.filterChip:focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
 }
 
 .srOnly {
@@ -280,6 +384,20 @@
   .heroCategories {
     grid-area: categories;
     align-self: center;
+    text-align: left;
+  }
+
+  .categoryList {
+    justify-items: start;
+  }
+
+  .categoryItem {
+    justify-content: flex-start;
+  }
+
+  .categoryIcon {
+    width: 100px;
+    height: 100px;
   }
 
   .productHeader {
@@ -297,7 +415,7 @@
   }
 
   .searchInput {
-    width: 240px;
+    width: 300px;
   }
 
   .productGrid {

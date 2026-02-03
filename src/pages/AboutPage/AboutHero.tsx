@@ -26,7 +26,7 @@ export default function AboutHero({
             className={styles.buttonPrimary}
             onClick={onViewMenu}
           >
-            View Menu
+            View Our Products
           </button>
           <button
             type="button"

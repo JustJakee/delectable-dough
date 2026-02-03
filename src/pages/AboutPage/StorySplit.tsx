@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { assetUrls } from "../../content/assets";
 import styles from "./AboutPage.module.css";
 
 const highlights = [
@@ -104,7 +105,7 @@ export default function StorySplit() {
         </div>
         <figure className={styles.storyPortrait}>
           <img
-            src="https://delectable-dough-baking-co.s3.us-east-2.amazonaws.com/MomBakes2.png"
+            src={assetUrls.about.bakerPortrait}
             alt="Portrait of the baker behind Delectable Dough."
           />
         </figure>
