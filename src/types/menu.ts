@@ -52,6 +52,7 @@ type MenuBase = {
   title: string;
   description?: string;
   badge?: string;
+  accentColor?: string;
   availabilityNote?: string;
   minimumOrderNote?: string;
   orderMode: OrderMode;

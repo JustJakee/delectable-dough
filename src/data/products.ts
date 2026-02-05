@@ -95,7 +95,6 @@ export const products: Product[] = [
     tags: ["best"],
     category: "pastries",
     oneLiner: "Crunchy, dipped pretzels with a sweet finish.",
-    cta: { href: "/contact", label: "Order now" },
   },
   {
     id: "choc-oreos",

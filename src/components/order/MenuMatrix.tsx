@@ -42,15 +42,14 @@ export default function MenuMatrix({
   const getValue = (rowId: string, columnId: string) =>
     quantities[`${menuId}:${rowId}:${columnId}`] ?? 0;
 
-  const selections: MatrixSelection[] = [];
-
-  matrix.rows.forEach((row) => {
+  const getRowSelections = (rowId: string, rowLabel: string) => {
+    const rowSelections: MatrixSelection[] = [];
     matrix.columns.forEach((column) => {
-      const quantity = getValue(row.id, column.id);
+      const quantity = getValue(rowId, column.id);
       if (quantity > 0) {
-        selections.push({
-          rowId: row.id,
-          rowLabel: row.label,
+        rowSelections.push({
+          rowId,
+          rowLabel,
           columnId: column.id,
           columnLabel: column.label,
           quantity,
@@ -58,69 +57,107 @@ export default function MenuMatrix({
         });
       }
     });
-  });
-
-  const canAdd = selections.length > 0 && !disabled;
+    return rowSelections;
+  };
 
   return (
     <section
       className={styles.matrixSection}
       aria-label={`${matrix.title} grid`}
     >
-      <div className={styles.matrixHeaderRow} style={gridStyle}>
-        <span />
-        {matrix.columns.map((column) => (
-          <div key={column.id} className={styles.matrixHeaderCell}>
-            <span className={styles.matrixHeaderLabel}>{column.label}</span>
-            <span className={styles.matrixHeaderPrice}>
-              {formatMoney(column.price)}
-            </span>
-          </div>
-        ))}
-      </div>
-      {matrix.rows.map((row) => (
-        <div key={row.id} className={styles.matrixRow} style={gridStyle}>
-          <div className={styles.matrixRowLabel}>{row.label}</div>
-          {matrix.columns.map((column) => {
-            const inputId = `${menuId}-${row.id}-${column.id}`;
-            return (
-              <div key={column.id} className={styles.matrixCell}>
-                <label className={styles.matrixCellLabel} htmlFor={inputId}>
-                  <span>{column.label}</span>
-                  <span className={styles.matrixCellPrice}>
-                    {formatMoney(column.price)}
-                  </span>
-                </label>
-                <input
-                  id={inputId}
-                  type="number"
-                  min={0}
-                  className={styles.matrixInput}
-                  value={getValue(row.id, column.id)}
-                  onChange={(event) =>
-                    onChangeQuantity(
-                      row.id,
-                      column.id,
-                      Math.max(0, Number(event.target.value) || 0),
-                    )
-                  }
-                  disabled={disabled}
-                  aria-label={`${row.label} ${matrixLabel} quantity for ${column.label}`}
-                />
-              </div>
-            );
-          })}
+      <div className={styles.matrixCard}>
+        <div className={styles.matrixHeaderRow} style={gridStyle}>
+          <span />
+          {matrix.columns.map((column) => (
+            <div key={column.id} className={styles.matrixHeaderCell}>
+              <span className={styles.matrixHeaderLabel}>{column.label}</span>
+              <span className={styles.matrixHeaderPrice}>
+                {formatMoney(column.price)}
+              </span>
+            </div>
+          ))}
         </div>
-      ))}
-      <div className={styles.matrixActions}>
-        <button
-          type="button"
-          className={`${styles.addButton} ${styles.matrixAddButton}`}
-          onClick={() => onAddSelections(selections)}
-          disabled={!canAdd}
-        >
-          {disabled ? "Unavailable online" : "Add selected to order"}
-        </button>
+        {matrix.rows.map((row) => {
+          const rowSelections = getRowSelections(row.id, row.label);
+          const showRowAction = rowSelections.length > 0 && !disabled;
+
+          return (
+            <div key={row.id} className={styles.matrixRow} style={gridStyle}>
+              <div className={styles.matrixRowLabel}>{row.label}</div>
+              {matrix.columns.map((column) => {
+                const inputId = `${menuId}-${row.id}-${column.id}`;
+                const value = getValue(row.id, column.id);
+                const decrementDisabled = disabled || value <= 0;
+                return (
+                  <div key={column.id} className={styles.matrixCell}>
+                    <label className={styles.matrixCellLabel} htmlFor={inputId}>
+                      <span>{column.label}</span>
+                      <span className={styles.matrixCellPrice}>
+                        {formatMoney(column.price)}
+                      </span>
+                    </label>
+                    <div className={styles.matrixQuantityControl}>
+                      <button
+                        type="button"
+                        className={styles.matrixQuantityButton}
+                        onClick={() =>
+                          onChangeQuantity(
+                            row.id,
+                            column.id,
+                            Math.max(0, value - 1),
+                          )
+                        }
+                        disabled={decrementDisabled}
+                        aria-label={`Decrease ${row.label} ${column.label}`}
+                      >
+                        -
+                      </button>
+                      <input
+                        id={inputId}
+                        type="number"
+                        min={0}
+                        inputMode="numeric"
+                        className={styles.matrixInput}
+                        value={value}
+                        onChange={(event) =>
+                          onChangeQuantity(
+                            row.id,
+                            column.id,
+                            Math.max(0, Number(event.target.value) || 0),
+                          )
+                        }
+                        disabled={disabled}
+                        aria-label={`${row.label} ${matrixLabel} quantity for ${column.label}`}
+                      />
+                      <button
+                        type="button"
+                        className={styles.matrixQuantityButton}
+                        onClick={() =>
+                          onChangeQuantity(row.id, column.id, value + 1)
+                        }
+                        disabled={disabled}
+                        aria-label={`Increase ${row.label} ${column.label}`}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+              {showRowAction ? (
+                <div className={styles.matrixRowActions}>
+                  <button
+                    type="button"
+                    className={styles.matrixRowButton}
+                    onClick={() => onAddSelections(rowSelections)}
+                  >
+                    Add {row.label}
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

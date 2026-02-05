@@ -7,7 +7,7 @@ const navItems = [
   { label: "Home", to: "/" },
   { label: "News", to: "/news" },
   { label: "What We Bake", to: "/products" },
-  { label: "Order", to: "/order" },
+  { label: "Order Sweets", to: "/order" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
@@ -35,7 +35,7 @@ export default function Header() {
           aria-controls="primary-navigation"
           onClick={handleToggle}
         >
-          Menu 
+          Menu
         </button>
         {/* TODO MAKE THIS A HAMBURGER */}
         <nav

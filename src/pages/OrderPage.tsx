@@ -1,4 +1,12 @@
-import { useEffect, useMemo, useReducer, useRef, type FormEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+} from "react";
 import { useSearchParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import MenuSelector from "../components/order/MenuSelector";
@@ -22,6 +30,7 @@ type MenuStatus = "available" | "requestOnly" | "viewOnly" | "outOfSeason";
 
 type OrderAction =
   | { type: "SELECT_MENU"; menuId: string }
+  | { type: "CLEAR_CART" }
   | {
       type: "SET_DRAFT_ITEM";
       payload: Partial<
@@ -191,6 +200,15 @@ const reducer = (state: OrderState, action: OrderAction): OrderState => {
         draftNotes: "",
         editingLineId: undefined,
       };
+    case "CLEAR_CART":
+      return {
+        ...state,
+        lineItems: [],
+        matrixQuantities: {},
+        editingLineId: undefined,
+        checkoutAttempted: false,
+        checkoutOpen: false,
+      };
     case "SET_DRAFT_ITEM":
       return {
         ...state,
@@ -331,6 +349,8 @@ export default function OrderPage() {
   const menuItemsRef = useRef<HTMLDivElement>(null);
   const hasUserSelectedRef = useRef(false);
   const ignoreNextMenuParamRef = useRef<string | null>(null);
+  const [pendingMenuId, setPendingMenuId] = useState<string | null>(null);
+  const [showMenuConfirm, setShowMenuConfirm] = useState(false);
 
   const selectedMenu = useMemo(
     () => getSelectedMenu(orderState.selectedMenuId),
@@ -382,7 +402,7 @@ export default function OrderPage() {
     });
   }, [menuParam, orderState.selectedMenuId]);
 
-  const handleMenuSelect = (menuId: string) => {
+  const applyMenuSelection = (menuId: string) => {
     hasUserSelectedRef.current = true;
     ignoreNextMenuParamRef.current = menuId;
     dispatch({ type: "SELECT_MENU", menuId });
@@ -394,6 +414,18 @@ export default function OrderPage() {
       },
       { replace: true },
     );
+  };
+
+  const handleMenuSelect = (menuId: string) => {
+    if (menuId === orderState.selectedMenuId) {
+      return;
+    }
+    if (orderState.lineItems.length > 0) {
+      setPendingMenuId(menuId);
+      setShowMenuConfirm(true);
+      return;
+    }
+    applyMenuSelection(menuId);
   };
 
   const handleToggleItem = (itemId: string) => {
@@ -640,15 +672,16 @@ export default function OrderPage() {
   };
 
   return (
-    <div className={styles.page}>
+    <div
+      className={styles.page}
+      style={
+        selectedMenu.accentColor
+          ? ({ "--menu-accent": selectedMenu.accentColor } as CSSProperties)
+          : undefined
+      }
+    >
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Build your order!</h1>
-        <p className={styles.pageSubtitle}>
-          Pick a menu, choose your favorites, and send a request.
-        </p>
-        <p className={styles.pageSubtitle}>
-          We will confirm availability and follow up with an invoice.
-        </p>
       </header>
 
       <div className={styles.orderGrid}>
@@ -868,6 +901,58 @@ export default function OrderPage() {
         disableSubmit={orderState.status === "submitting" || deliveryBlocked}
         onSubmit={handleSubmit}
       />
+
+      {showMenuConfirm ? (
+        <div
+          className={styles.confirmBackdrop}
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setShowMenuConfirm(false);
+              setPendingMenuId(null);
+            }
+          }}
+        >
+          <div
+            className={styles.confirmModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="menu-confirm-title"
+          >
+            <h2 id="menu-confirm-title" className={styles.confirmTitle}>
+              Leave this menu?
+            </h2>
+            <p className={styles.confirmText}>
+              Your cart will be cleared if you switch menus.
+            </p>
+            <div className={styles.confirmActions}>
+              <button
+                type="button"
+                className={styles.confirmSecondary}
+                onClick={() => {
+                  setShowMenuConfirm(false);
+                  setPendingMenuId(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={styles.confirmPrimary}
+                onClick={() => {
+                  if (pendingMenuId) {
+                    dispatch({ type: "CLEAR_CART" });
+                    applyMenuSelection(pendingMenuId);
+                  }
+                  setShowMenuConfirm(false);
+                  setPendingMenuId(null);
+                }}
+              >
+                Switch menus
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

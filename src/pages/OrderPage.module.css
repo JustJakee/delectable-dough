@@ -6,6 +6,7 @@
   --border-muted: #f1eee8;
   --surface-soft: #fbfaf8;
   --shadow-subtle: 0 14px 32px rgba(17, 17, 17, 0.06);
+  --menu-accent: var(--brand);
   font-family:
     "Inter",
     var(--font-sans),
@@ -25,7 +26,7 @@
 
 .pageHeader {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   max-width: 44rem;
 }
 
@@ -200,6 +201,20 @@
   font-size: var(--font-size-1);
 }
 
+.menuItemDescriptionBlock {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.menuItemList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--font-size-1);
+}
+
 .menuItemToggle {
   width: 36px;
   height: 36px;
@@ -230,7 +245,7 @@
 }
 
 .menuItemToggleOpen {
-  background: var(--brand);
+  background: var(--menu-accent);
   color: #ffffff;
   border-color: transparent;
 }
@@ -278,8 +293,8 @@
 .segmentedOptionActive {
   background: #ffffff;
   color: var(--color-ink);
-  border-color: var(--brand);
-  box-shadow: 0 0 0 1px rgba(52, 54, 143, 0.12);
+  border-color: var(--menu-accent);
+  box-shadow: 0 0 0 1px var(--menu-accent);
 }
 
 .segmentedInput {
@@ -311,12 +326,13 @@
 
 .quantityButton {
   border-radius: 999px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--menu-accent);
   background: #ffffff;
   width: 32px;
   height: 32px;
   font-weight: 600;
   cursor: pointer;
+  color: var(--menu-accent);
 }
 
 .quantityInput {
@@ -355,20 +371,20 @@
 }
 
 .noteToggle {
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--menu-accent);
   background: transparent;
   border-radius: 999px;
   padding: 8px 14px;
   font-weight: 600;
   cursor: pointer;
   width: fit-content;
-  color: #2f2f2f;
+  color: var(--menu-accent);
 }
 
 .addButton {
   border-radius: 999px;
   padding: 10px 18px;
-  background: var(--brand);
+  background: var(--menu-accent);
   color: #ffffff;
   border: none;
   font-weight: 600;
@@ -488,10 +504,14 @@
 .linkButton {
   border: none;
   background: none;
-  color: #4f4f4f;
+  color: var(--menu-accent);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
+}
+
+.linkButton[data-variant="danger"] {
+  color: #b42318;
 }
 
 .summarySubtotal {
@@ -510,7 +530,7 @@
 .checkoutButton {
   border-radius: 999px;
   padding: 12px 20px;
-  background: var(--brand);
+  background: var(--menu-accent);
   color: #ffffff;
   border: none;
   font-weight: 700;
@@ -558,7 +578,7 @@
 .submitButton {
   border-radius: 999px;
   padding: 12px 20px;
-  background: var(--brand);
+  background: var(--menu-accent);
   color: #ffffff;
   border: none;
   font-weight: 700;
@@ -603,6 +623,11 @@
   color: var(--text-subtle);
 }
 
+.matrixCard {
+  display: grid;
+  gap: var(--space-3);
+}
+
 .matrixRow {
   display: grid;
   grid-template-columns: 1fr;
@@ -637,7 +662,7 @@
 }
 
 .matrixInput {
-  width: 72px;
+  width: 64px;
   height: 36px;
   text-align: center;
   border-radius: var(--radius-3);
@@ -645,9 +670,42 @@
   padding: 6px 8px;
 }
 
-.matrixActions {
-  display: flex;
-  justify-content: flex-start;
+.matrixQuantityControl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.matrixQuantityButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--menu-accent);
+  background: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--menu-accent);
+}
+
+.matrixQuantityButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.matrixRowActions {
+  grid-column: 1 / -1;
+  margin-top: var(--space-2);
+}
+
+.matrixRowButton {
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: var(--menu-accent);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  width: fit-content;
 }
 
 .mobileCartWrap {
@@ -697,11 +755,68 @@
 .cartButton {
   border-radius: 999px;
   padding: 10px 16px;
-  background: var(--brand);
+  background: var(--menu-accent);
   color: #ffffff;
   border: none;
   font-weight: 700;
   cursor: pointer;
+}
+
+.confirmBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 2001;
+}
+
+.confirmModal {
+  background: #ffffff;
+  border-radius: var(--radius-4);
+  padding: var(--space-5);
+  width: min(420px, 100%);
+  box-shadow: 0 24px 60px rgba(17, 17, 17, 0.18);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.confirmTitle {
+  margin: 0;
+  font-size: var(--font-size-3);
+}
+
+.confirmText {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.confirmActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.confirmPrimary,
+.confirmSecondary {
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.confirmPrimary {
+  background: var(--menu-accent);
+  color: #ffffff;
+}
+
+.confirmSecondary {
+  background: #f3f1ec;
+  color: #2a2a2a;
 }
 
 .menuItemToggle:focus-visible,
@@ -711,6 +826,8 @@
 .submitButton:focus-visible,
 .checkoutButton:focus-visible,
 .cartButton:focus-visible,
+.matrixQuantityButton:focus-visible,
+.matrixRowButton:focus-visible,
 .noteToggle:focus-visible,
 .input:focus-visible,
 .select:focus-visible,
@@ -727,8 +844,12 @@
   }
 
   .menuItemToggle:hover {
-    border-color: var(--brand);
-    color: var(--brand);
+    border-color: var(--menu-accent);
+    color: var(--menu-accent);
+  }
+
+  .menuItemToggleOpen:hover {
+    color: #111111;
   }
 }
 
@@ -770,6 +891,10 @@
     justify-items: center;
   }
 
+  .matrixQuantityControl {
+    gap: var(--space-1);
+  }
+
   .matrixCellLabel {
     position: absolute;
     width: 1px;
@@ -784,6 +909,16 @@
 
   .matrixInput {
     width: 68px;
+  }
+}
+
+@media (min-width: 900px) {
+  .matrixCard {
+    background: #ffffff;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-4);
+    padding: var(--space-5);
+    box-shadow: 0 14px 28px rgba(17, 17, 17, 0.05);
   }
 }
 

@@ -123,7 +123,7 @@ export default function MenuSelector(props: MenuSelectorProps) {
   return (
     <div className={styles.menuSelector}>
       <label className={styles.menuLabel} id="menu-select-label">
-        Menu
+        Choose a menu to get started
       </label>
       <Select
         className={styles.select}

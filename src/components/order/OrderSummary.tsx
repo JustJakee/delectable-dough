@@ -88,6 +88,7 @@ export default function OrderSummary({
                     type="button"
                     className={styles.linkButton}
                     onClick={() => onRemove(item.lineId)}
+                    data-variant="danger"
                   >
                     Remove
                   </button>

@@ -4,8 +4,7 @@ export const menus: Menu[] = [
   {
     id: "standard-trays",
     title: "Sensational Sweet Trays",
-    description:
-      "Flyer favorites for gatherings, offices, and family celebrations.",
+    description: "Favorites for gatherings, offices, and family celebrations.",
     badge: "Standard",
     availabilityNote: "Available year-round. Seasonal swaps upon request.",
     minimumOrderNote: "Minimum order: 1 tray.",
@@ -84,40 +83,71 @@ export const menus: Menu[] = [
       },
     ],
   },
+
+  {
+    id: "valentines-day-treats",
+    title: "Valentine's Day Treats",
+    description:
+      "Limited-time Valentine's treats available through February 10.",
+    badge: "Holiday",
+    accentColor: "#d2557a",
+    availabilityNote: "Available through February 10.",
+    orderMode: "online",
+    activeTo: "2026-02-10",
+    template: "catalog",
+    items: [
+      {
+        id: "signature-chocolate-cherry-strudel-whole",
+        name: "Signature Chocolate Cherry Strudel — Whole Loaf",
+        description:
+          "Our Valentine's signature! A rich chocolate cherry strudel baked fresh and sliced into 12 generous pieces. Perfect for gifting or sharing.",
+        sizes: [{ id: "default", label: "12 slices", price: 28 }],
+        defaultSizeId: "default",
+        kind: "preset",
+        allowNotes: false,
+      },
+      {
+        id: "signature-chocolate-cherry-strudel-half",
+        name: "Signature Chocolate Cherry Strudel — Half Loaf",
+        description:
+          "A smaller portion of our seasonal favorite. Chocolate cherry strudel sliced into 6 pieces just right for an intimate celebration.",
+        sizes: [{ id: "default", label: "6 slices", price: 14 }],
+        defaultSizeId: "default",
+        kind: "preset",
+        allowNotes: false,
+      },
+      {
+        id: "gourmet-chocolate-dipped-strawberries-dozen",
+        name: "Gourmet Chocolate Dipped Strawberries",
+        description:
+          "Large, fresh strawberries hand-dipped in rich chocolate. A classic Valentine’s treat made to impress.",
+        sizes: [{ id: "default", label: "1 dozen", price: 24 }],
+        defaultSizeId: "default",
+        kind: "preset",
+        allowNotes: false,
+      },
+      {
+        id: "valentines-day-treat-box",
+        name: "Valentine's Day Treat Box",
+        description:
+          "A festive assortment of Valentine's favorites including:\n• 6 chocolate & white chocolate dipped pretzels\n• 6 chocolate & white chocolate dipped Oreos\n• 6 milk chocolate toffee squares or chocolate chip cookies",
+        sizes: [{ id: "default", label: "Assorted box", price: 22 }],
+        defaultSizeId: "default",
+        kind: "preset",
+        allowNotes: false,
+      },
+    ],
+  },
   {
     id: "holiday-hamantaschen",
     title: "Holiday Hamantaschen",
-    description: "Mix and match classic fillings across regular, gluten-free, or vegan dough.",
+    description:
+      "Mix and match classic fillings across regular, gluten-free, or vegan dough.",
     badge: "Seasonal",
     availabilityNote: "Available February 16th to March 16th.",
     orderMode: "online",
     template: "matrix",
     activeFrom: "2026-02-16",
-    activeTo: "2026-03-16",
-    matrix: {
-      title: "Hamantaschen",
-      rows: [
-        { id: "apple", label: "Apple" },
-        { id: "apricot", label: "Apricot" },
-        { id: "poppy", label: "Poppy Seed" },
-        { id: "chocolate", label: "Chocolate" },
-      ],
-      columns: [
-        { id: "regular", label: "Regular", price: 3 },
-        { id: "gluten-free", label: "Gluten-Free", price: 3.5 },
-        { id: "vegan", label: "Vegan", price: 3.5 },
-      ],
-    },
-  },
-    {
-    id: "holiday-hamantaschen-test",
-    title: "Holiday Hamantaschen 2",
-    description: "Mix and match classic fillings across regular, gluten-free, or vegan dough.",
-    badge: "Seasonal",
-    availabilityNote: "Available February 16th to March 16th.",
-    orderMode: "online",
-    template: "matrix",
-    activeFrom: "2026-02-02",
     activeTo: "2026-03-16",
     matrix: {
       title: "Hamantaschen",

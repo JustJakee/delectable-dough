@@ -7,7 +7,7 @@ import styles from "./MenuHub.module.css";
 
 const filterOptions = [
   { id: "best", label: "Best sellers" },
-  { id: "favorite", label: "Baker's favorite" }
+  { id: "favorite", label: "Baker's favorite" },
 ];
 
 export default function MenuHub() {
@@ -20,7 +20,7 @@ export default function MenuHub() {
   const placeholderGallery = [
     "https://placehold.net/800x600.png",
     "https://placehold.net/800x600.png",
-    "https://placehold.net/800x600.png"
+    "https://placehold.net/800x600.png",
   ];
 
   useEffect(() => {
@@ -55,9 +55,9 @@ export default function MenuHub() {
         searchTerm,
         activeTag,
         page,
-        pageSize
+        pageSize,
       }),
-    [products, searchTerm, activeTag, page, pageSize]
+    [products, searchTerm, activeTag, page, pageSize],
   );
 
   const handlePrev = () => {
@@ -122,7 +122,11 @@ export default function MenuHub() {
             onChange={(event) => setSearchTerm(event.target.value)}
           />
         </div>
-        <div className={styles.filters} role="group" aria-label="Product filters">
+        <div
+          className={styles.filters}
+          role="group"
+          aria-label="Product filters"
+        >
           {filterOptions.map((option) => {
             const isActive = activeTag === option.id;
             return (
@@ -135,7 +139,7 @@ export default function MenuHub() {
                 aria-pressed={isActive}
                 onClick={() =>
                   setActiveTag((prev) =>
-                    prev === option.id ? null : option.id
+                    prev === option.id ? null : option.id,
                   )
                 }
               >
@@ -154,16 +158,20 @@ export default function MenuHub() {
                 const ctaLabel = product.cta?.label ?? "Learn more";
                 const ctaHref = product.cta?.href ?? "/contact";
                 const isExpanded = expandedId === product.id;
-                const tagLabels = product.tags.reduce<string[]>((labels, tag) => {
-                  if (tag === "best") {
-                    labels.push("Best seller");
-                  } else if (tag === "favorite") {
-                    labels.push("Baker's favorite");
-                  }
-                  return labels;
-                }, []);
+                const tagLabels = product.tags.reduce<string[]>(
+                  (labels, tag) => {
+                    if (tag === "best") {
+                      labels.push("Best seller");
+                    } else if (tag === "favorite") {
+                      labels.push("Baker's favorite");
+                    }
+                    return labels;
+                  },
+                  [],
+                );
                 const isPlaceholderImage =
-                  !product.image || product.image === assetUrls.productPlaceholder;
+                  !product.image ||
+                  product.image === assetUrls.productPlaceholder;
                 const gallery =
                   product.gallery && product.gallery.length > 0
                     ? product.gallery
@@ -311,32 +319,34 @@ export default function MenuHub() {
                 );
               })}
             </div>
-            <nav
-              className={styles.pagination}
-              aria-label="Product pagination"
-            >
-              <button
-                type="button"
-                className={styles.paginationButton}
-                onClick={handlePrev}
-                disabled={page === 1}
-                aria-label="Previous page"
+            {totalPages > 1 ? (
+              <nav
+                className={styles.pagination}
+                aria-label="Product pagination"
               >
-                Previous
-              </button>
-              <p className={styles.paginationStatus}>
-                Page {page} of {totalPages}
-              </p>
-              <button
-                type="button"
-                className={styles.paginationButton}
-                onClick={handleNext}
-                disabled={page >= totalPages}
-                aria-label="Next page"
-              >
-                Next
-              </button>
-            </nav>
+                <button
+                  type="button"
+                  className={styles.paginationButton}
+                  onClick={handlePrev}
+                  disabled={page === 1}
+                  aria-label="Previous page"
+                >
+                  Previous
+                </button>
+                <p className={styles.paginationStatus}>
+                  Page {page} of {totalPages}
+                </p>
+                <button
+                  type="button"
+                  className={styles.paginationButton}
+                  onClick={handleNext}
+                  disabled={page >= totalPages}
+                  aria-label="Next page"
+                >
+                  Next
+                </button>
+              </nav>
+            ) : null}
           </>
         )}
       </section>

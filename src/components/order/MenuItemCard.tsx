@@ -76,6 +76,32 @@ export default function MenuItemCard({
     onAdd();
   };
 
+  const renderDescription = (description?: string) => {
+    if (!description) {
+      return null;
+    }
+    const lines = description.split("\n").map((line) => line.trim());
+    if (lines.length === 1) {
+      return <p className={styles.menuItemDescription}>{description}</p>;
+    }
+    const [intro, ...rest] = lines;
+    const bullets = rest.filter(Boolean);
+    const hasBullets = bullets.every((line) => line.startsWith("•"));
+    if (!hasBullets) {
+      return <p className={styles.menuItemDescription}>{lines.join(" ")}</p>;
+    }
+    return (
+      <div className={styles.menuItemDescriptionBlock}>
+        {intro ? <p className={styles.menuItemDescription}>{intro}</p> : null}
+        <ul className={styles.menuItemList}>
+          {bullets.map((line) => (
+            <li key={line}>{line.replace(/^•\s*/, "")}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <article className={styles.menuItemCard}>
       <div className={styles.menuItemHeader}>
@@ -84,9 +110,7 @@ export default function MenuItemCard({
           {item.servingNote ? (
             <p className={styles.menuItemServing}>{item.servingNote}</p>
           ) : null}
-          {item.description ? (
-            <p className={styles.menuItemDescription}>{item.description}</p>
-          ) : null}
+          {renderDescription(item.description)}
         </div>
         <button
           type="button"
