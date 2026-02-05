@@ -261,32 +261,34 @@ export default function Home() {
                 </article>
               ))}
             </div>
-            <nav
-              className={styles.pagination}
-              aria-label="Product pagination"
-            >
-              <button
-                type="button"
-                className={styles.paginationButton}
-                onClick={handlePrev}
-                disabled={page === 1}
-                aria-label="Previous page"
+            {totalPages > 1 ? (
+              <nav
+                className={styles.pagination}
+                aria-label="Product pagination"
               >
-                Previous
-              </button>
-              <p className={styles.paginationStatus}>
-                Page {page} of {totalPages}
-              </p>
-              <button
-                type="button"
-                className={styles.paginationButton}
-                onClick={handleNext}
-                disabled={page >= totalPages}
-                aria-label="Next page"
-              >
-                Next
-              </button>
-            </nav>
+                <button
+                  type="button"
+                  className={styles.paginationButton}
+                  onClick={handlePrev}
+                  disabled={page === 1}
+                  aria-label="Previous page"
+                >
+                  Previous
+                </button>
+                <p className={styles.paginationStatus}>
+                  Page {page} of {totalPages}
+                </p>
+                <button
+                  type="button"
+                  className={styles.paginationButton}
+                  onClick={handleNext}
+                  disabled={page >= totalPages}
+                  aria-label="Next page"
+                >
+                  Next
+                </button>
+              </nav>
+            ) : null}
           </>
         )}
       </section>

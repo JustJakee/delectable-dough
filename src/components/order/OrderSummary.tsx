@@ -12,7 +12,7 @@ type OrderSummaryProps = {
   checkoutDisabled?: boolean;
   showEmptyHint?: boolean;
   emptyHintText?: string;
-  checkoutButtonRef?: RefObject<HTMLButtonElement>;
+  checkoutButtonRef?: RefObject<HTMLButtonElement | null>;
   idPrefix: string;
 };
 
@@ -62,7 +62,8 @@ export default function OrderSummary({
                   {menuCount > 1 && item.source === "catalog"
                     ? `${item.menuTitle} - `
                     : ""}
-                  {item.sizeLabel ? `${item.sizeLabel} - ` : ""}Qty {item.quantity}
+                  {item.sizeLabel ? `${item.sizeLabel} - ` : ""}Qty{" "}
+                  {item.quantity}
                   {item.flavor ? ` - ${item.flavor}` : ""}
                 </p>
                 {item.notes ? (

@@ -108,23 +108,12 @@ type MenuSelectorProps = {
   onSelect: (menuId: string) => void;
 };
 
-const getMinimumPill = (note?: string) => {
-  if (!note) {
-    return "";
-  }
-  const cleaned = note.replace(/minimum order[:]?/i, "").trim();
-  const trimmed = cleaned.replace(/\.$/, "");
-  return `Min ${trimmed}`;
-};
-
 export default function MenuSelector(props: MenuSelectorProps) {
   const { menus, selectedMenuId, selectedMenu, status, getStatus, onSelect } =
     props;
   const showSpecialRequest =
     status === "requestOnly" || status === "outOfSeason";
   const showViewOnly = status === "viewOnly";
-  const selectedTags = getStatusTags(selectedMenu);
-  const minimumPill = getMinimumPill(selectedMenu.minimumOrderNote);
   const availabilityDetail =
     getSeasonLabel(selectedMenu) ||
     selectedMenu.availabilityNote ||
@@ -133,6 +122,9 @@ export default function MenuSelector(props: MenuSelectorProps) {
 
   return (
     <div className={styles.menuSelector}>
+      <label className={styles.menuLabel} id="menu-select-label">
+        Menu
+      </label>
       <Select
         className={styles.select}
         popupClassName={styles.dropdown}

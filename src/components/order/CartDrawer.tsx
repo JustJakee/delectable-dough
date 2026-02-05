@@ -6,7 +6,7 @@ type CartDrawerProps = {
   title: string;
   onClose: () => void;
   onContinue: () => void;
-  returnFocusRef?: RefObject<HTMLElement>;
+  returnFocusRef?: RefObject<HTMLElement | null>;
   children: ReactNode;
 };
 

@@ -7,7 +7,7 @@ type MobileCartBarProps = {
   onOpen: () => void;
   showHint?: boolean;
   hintText?: string;
-  buttonRef?: RefObject<HTMLButtonElement>;
+  buttonRef?: RefObject<HTMLButtonElement | null>;
 };
 
 const formatMoney = (value: number) =>

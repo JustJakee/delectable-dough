@@ -7,7 +7,7 @@ import orderStyles from "../../pages/OrderPage.module.css";
 type CheckoutModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  returnFocusRef?: RefObject<HTMLElement>;
+  returnFocusRef?: RefObject<HTMLElement | null>;
   lineItems: LineItem[];
   subtotal: number;
   onEdit: (lineId: string) => void;

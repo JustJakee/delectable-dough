@@ -173,7 +173,7 @@ const buildInitialState = (menuId?: string): OrderState => ({
 });
 
 const reducer = (state: OrderState, action: OrderAction): OrderState => {
-  const clearStatus =
+  const clearStatus: Partial<OrderState> =
     state.status === "success" || state.status === "error"
       ? { status: "idle", errorMessage: undefined }
       : {};
@@ -564,25 +564,27 @@ export default function OrderPage() {
 
   const showErrors = {
     dateNeeded:
-      (orderState.submitAttempted || orderState.touched.dateNeeded) &&
+      Boolean(orderState.submitAttempted || orderState.touched.dateNeeded) &&
       Boolean(errors.dateNeeded),
     name:
-      (orderState.submitAttempted ||
+      Boolean(
+        orderState.submitAttempted ||
         orderState.touched.firstName ||
-        orderState.touched.lastName) &&
-      Boolean(errors.name),
+        orderState.touched.lastName,
+      ) && Boolean(errors.name),
     email:
-      (orderState.submitAttempted || orderState.touched.email) &&
+      Boolean(orderState.submitAttempted || orderState.touched.email) &&
       Boolean(errors.email),
     phone:
-      (orderState.submitAttempted || orderState.touched.phone) &&
+      Boolean(orderState.submitAttempted || orderState.touched.phone) &&
       Boolean(errors.phone),
     address:
-      (orderState.submitAttempted || orderState.touched.address) &&
+      Boolean(orderState.submitAttempted || orderState.touched.address) &&
       Boolean(errors.address),
     deliveryMinimum:
-      (orderState.submitAttempted || orderState.touched.fulfillmentType) &&
-      Boolean(errors.deliveryMinimum),
+      Boolean(
+        orderState.submitAttempted || orderState.touched.fulfillmentType,
+      ) && Boolean(errors.deliveryMinimum),
   };
 
   const isValid =
