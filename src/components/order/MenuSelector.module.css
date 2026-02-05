@@ -1,0 +1,239 @@
+.menuSelector {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.menuLabel {
+  font-weight: 600;
+  font-size: var(--font-size-1);
+  color: #2a2a2a;
+}
+
+.select {
+  width: 100%;
+}
+
+.select :global(.ant-select-selector) {
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 6px 12px;
+  min-height: 52px;
+  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.05);
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+}
+
+.select :global(.ant-select-selection-item) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.select:global(.ant-select-focused) :global(.ant-select-selector) {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(52, 54, 143, 0.2);
+}
+
+.select :global(.ant-select-arrow) {
+  color: var(--brand);
+  top: 80%;
+  right: 3%;
+  font-size: 1.1rem;
+}
+
+.dropdown {
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 4px 0;
+  background: #ffffff;
+}
+
+.dropdown :global(.ant-select-item) {
+  padding: 10px 14px;
+}
+
+.dropdown :global(.ant-select-item-option-content) {
+  white-space: normal;
+}
+
+.dropdown :global(.ant-select-item-option-disabled) {
+  opacity: 0.55;
+}
+
+.selectedLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.selectedTitle {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.selectedTags {
+  display: inline-flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.optionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.optionText {
+  display: grid;
+  gap: 4px;
+}
+
+.optionTitle {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.optionMeta {
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+}
+
+.optionTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.statusTag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  background: #eef2f7;
+  color: #4b5563;
+  margin-inline-end: 0;
+  margin-right: 0;
+  line-height: 1.4;
+}
+
+.minTag {
+  background: #f3f0ea;
+  color: #5a5147;
+  border-color: #e2ddd5;
+}
+
+.statusoutOfSeason {
+  background: #f1f1f1;
+  color: #5f6368;
+  border-color: #e0e0e0;
+}
+
+.statuscallToRequest {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.statusspecialRequest {
+  background: #e0f2fe;
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+.statusholiday {
+  background: #ede9fe;
+  color: #5b21b6;
+  border-color: #ddd6fe;
+}
+
+.statusspecialOffer {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.statusavailable {
+  background: #eef2f7;
+  color: #4b5563;
+  border-color: #e2e8f0;
+}
+
+.menuInfoCard {
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: #ffffff;
+  padding: var(--space-4);
+  margin-top: var(--space-6);
+  display: grid;
+  gap: var(--space-3);
+  box-shadow: 0 12px 26px rgba(17, 17, 17, 0.05);
+}
+
+.menuInfoDescription {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.menuInfoDetails {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.menuInfoDetail {
+  display: grid;
+  gap: 4px;
+}
+
+.menuInfoLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+  font-weight: 600;
+}
+
+.menuInfoValue {
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.menuInfoNotice {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-3);
+  background: #f7f4ee;
+  color: #5a5147;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .menuInfoCard {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 600px) {
+  .optionRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .optionTags {
+    width: 100%;
+  }
+}

@@ -101,7 +101,7 @@ export default function MenuDetail() {
             ? menu.description
             : "We rotate menus often. Please choose a menu from the hub."}
         </p>
-        <Link className={styles.link} to="/menu">
+        <Link className={styles.link} to="/products">
           Back to menus
         </Link>
       </header>

@@ -363,6 +363,26 @@
   align-items: center;
 }
 
+@media (max-width: 899px) {
+  .productHeader {
+    align-items: center;
+    text-align: center;
+  }
+
+  .filterRow {
+    align-items: center;
+  }
+
+  .filterGroup {
+    justify-content: center;
+  }
+
+  .pagination {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 @media (min-width: 900px) {
   .hero {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);

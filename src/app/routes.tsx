@@ -6,6 +6,7 @@ import AboutPage from "../pages/AboutPage/AboutPage";
 import MenuHub from "../pages/MenuHub";
 import MenuDetail from "../pages/MenuDetail";
 import Contact from "../pages/Contact";
+import OrderPage from "../pages/OrderPage";
 
 export const router = createBrowserRouter([
   {
@@ -15,8 +16,9 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "news", element: <News /> },
       { path: "about", element: <AboutPage /> },
-      { path: "menu", element: <MenuHub /> },
-      { path: "menu/:menuId", element: <MenuDetail /> },
+      { path: "products", element: <MenuHub /> },
+      { path: "products/:menuId", element: <MenuDetail /> },
+      { path: "order", element: <OrderPage /> },
       { path: "contact", element: <Contact /> },
     ],
   },

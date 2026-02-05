@@ -140,7 +140,7 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <Link className={styles.categoryLink} to="/menu">
+          <Link className={styles.categoryLink} to="/products">
             View full menu
           </Link>
         </aside>

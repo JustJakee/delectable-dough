@@ -1,5 +1,5 @@
 .footer {
-  background: var(--color-ink);
+  background: var(--color-ddbc-blue);
   color: var(--color-vanilla);
   padding: var(--space-7) var(--space-5) var(--space-6);
 }
@@ -78,5 +78,24 @@ a {
 @media (min-width: 900px) {
   .inner {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899px) {
+  .inner {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .socials {
+    justify-items: center;
+  }
+
+  .socials a {
+    justify-content: center;
+  }
+
+  .bottom {
+    text-align: center;
   }
 }

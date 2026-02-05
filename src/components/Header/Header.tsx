@@ -6,7 +6,8 @@ import styles from "./Header.module.css";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "News", to: "/news" },
-  { label: "What We Bake", to: "/menu" },
+  { label: "What We Bake", to: "/products" },
+  { label: "Order", to: "/order" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
@@ -34,8 +35,9 @@ export default function Header() {
           aria-controls="primary-navigation"
           onClick={handleToggle}
         >
-          Menu
+          Menu 
         </button>
+        {/* TODO MAKE THIS A HAMBURGER */}
         <nav
           id="primary-navigation"
           aria-label="Primary"
