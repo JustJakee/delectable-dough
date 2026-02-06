@@ -30,6 +30,8 @@ type MenuStatus = "available" | "requestOnly" | "viewOnly" | "outOfSeason";
 
 type OrderAction =
   | { type: "SELECT_MENU"; menuId: string }
+  | { type: "SET_ORDER_TYPE"; orderType: "preset" | "trayBuilder" }
+  | { type: "RESET_ORDER_TYPE" }
   | { type: "CLEAR_CART" }
   | {
       type: "SET_DRAFT_ITEM";
@@ -104,7 +106,7 @@ const getMenuIdFromSearch = (params: URLSearchParams) => {
   if (isValidMenuId(menuId)) {
     return menuId as string;
   }
-  return menus[0]?.id ?? "";
+  return "";
 };
 
 const parseDate = (value?: string) =>
@@ -155,6 +157,7 @@ const getMenuStatusLabel = (status: MenuStatus) => {
 };
 
 const buildInitialState = (menuId?: string): OrderState => ({
+  orderType: "unset",
   selectedMenuId: menuId ?? menus[0]?.id ?? "",
   draftItemId: undefined,
   draftSizeId: undefined,
@@ -200,6 +203,20 @@ const reducer = (state: OrderState, action: OrderAction): OrderState => {
         draftNotes: "",
         editingLineId: undefined,
       };
+    case "SET_ORDER_TYPE":
+      return {
+        ...state,
+        orderType: action.orderType,
+        draftItemId: undefined,
+        draftSizeId: undefined,
+        draftQuantity: 1,
+        draftFlavor: "",
+        draftNotes: "",
+        editingLineId: undefined,
+      };
+    case "RESET_ORDER_TYPE": {
+      return buildInitialState("");
+    }
     case "CLEAR_CART":
       return {
         ...state,
@@ -371,11 +388,19 @@ export default function OrderPage() {
   );
 
   const menuStatus = getMenuStatus(selectedMenu);
-  const menuStatusLabel = getMenuStatusLabel(menuStatus);
   const menuIsViewOnly = menuStatus === "viewOnly";
 
   const hasItems = orderState.lineItems.length > 0;
   const showEmptyHint = orderState.checkoutAttempted && !hasItems;
+  const { orderType } = orderState;
+  const isChoosingOrderType = orderType === "unset";
+  const isPresetFlow = orderType === "preset";
+  const isTrayBuilderFlow = orderType === "trayBuilder";
+  const hasSelectedMenu = isValidMenuId(orderState.selectedMenuId);
+
+  useEffect(() => {
+    dispatch({ type: "RESET_ORDER_TYPE" });
+  }, []);
 
   useEffect(() => {
     if (ignoreNextMenuParamRef.current === menuParam) {
@@ -386,10 +411,13 @@ export default function OrderPage() {
       return;
     }
     dispatch({ type: "SELECT_MENU", menuId: menuParam as string });
-  }, [menuParam, orderState.selectedMenuId]);
+  }, [isPresetFlow, menuParam, orderState.selectedMenuId]);
 
   useEffect(() => {
     if (!shouldScrollOnLoadRef.current) {
+      return;
+    }
+    if (!isPresetFlow) {
       return;
     }
     if (!isValidMenuId(menuParam) || menuParam !== orderState.selectedMenuId) {
@@ -648,15 +676,15 @@ export default function OrderPage() {
       delivery_address: orderState.address ?? "",
       order_items: formatOrderEmail(orderState),
       order_subtotal: formatMoney(subtotal),
-      order_notes: orderState.additionalNotes ?? "",
+      order_notes: orderState.additionalNotes ?? "No Additional Notes.",
       selected_menu_title: selectedMenu.title,
-      menu_status: menuStatusLabel,
+      order_type: orderState.orderType,
     };
 
     try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        import.meta.env.VITE_EMAILJS_ORDER_TEMPLATE_ID,
         payload,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       );
@@ -680,227 +708,322 @@ export default function OrderPage() {
           : undefined
       }
     >
-      <header className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>Build your order!</h1>
-      </header>
-
-      <div className={styles.orderGrid}>
-        <section className={styles.menuColumn} aria-labelledby="menu-title">
-          <MenuSelector
-            menus={menus}
-            selectedMenuId={selectedMenu.id}
-            selectedMenu={selectedMenu}
-            status={menuStatus}
-            getStatus={getMenuStatus}
-            onSelect={handleMenuSelect}
-          />
-
-          <div
-            className={styles.menuItemsSection}
-            ref={menuItemsRef}
-            id="menu-items"
-          >
-            {selectedMenu.template === "matrix" && selectedMenu.matrix ? (
-              <MenuMatrix
-                menuId={selectedMenu.id}
-                matrix={selectedMenu.matrix}
-                quantities={orderState.matrixQuantities}
-                onChangeQuantity={handleMatrixQuantityChange}
-                onAddSelections={handleAddMatrixSelections}
-                disabled={menuIsViewOnly}
-              />
-            ) : (
-              <div className={styles.menuItems}>
-                {selectedMenu.items?.map((item) => (
-                  <MenuItemCard
-                    key={item.id}
-                    item={item}
-                    isOpen={orderState.draftItemId === item.id}
-                    selectedSizeId={
-                      orderState.draftItemId === item.id
-                        ? orderState.draftSizeId
-                        : undefined
-                    }
-                    quantity={orderState.draftQuantity}
-                    flavor={orderState.draftFlavor}
-                    notes={orderState.draftNotes}
-                    onToggle={handleToggleItem}
-                    onSelectSize={(sizeId) =>
-                      dispatch({
-                        type: "SET_DRAFT_ITEM",
-                        payload: { draftSizeId: sizeId },
-                      })
-                    }
-                    onQuantityChange={(value) =>
-                      dispatch({
-                        type: "SET_DRAFT_ITEM",
-                        payload: { draftQuantity: value },
-                      })
-                    }
-                    onFlavorChange={(value) =>
-                      dispatch({
-                        type: "SET_DRAFT_ITEM",
-                        payload: { draftFlavor: value },
-                      })
-                    }
-                    onNotesChange={(value) =>
-                      dispatch({
-                        type: "SET_DRAFT_ITEM",
-                        payload: { draftNotes: value },
-                      })
-                    }
-                    onAdd={handleAddItem}
-                    canAdd={
-                      orderState.draftItemId === item.id ? canAddItem : false
-                    }
-                    isDisabled={menuIsViewOnly}
-                  />
-                ))}
-              </div>
-            )}
+      {isChoosingOrderType ? (
+        <section
+          className={styles.orderTypeCard}
+          aria-labelledby="order-type-title"
+        >
+          <h2 id="order-type-title" className={styles.orderTypeTitle}>
+            How would you like to order?
+          </h2>
+          <div className={styles.orderTypeGrid}>
+            <button
+              type="button"
+              className={styles.orderTypeOption}
+              onClick={() =>
+                dispatch({ type: "SET_ORDER_TYPE", orderType: "preset" })
+              }
+            >
+              <span className={styles.optionText}>
+                <span className={styles.optionTitle}>Preset menus</span>
+                <span className={styles.optionDesc}>
+                  Curated trays & seasonal favorites, ready to order.
+                </span>
+                <span className={styles.optionCta}>
+                  Choose preset menus &rarr;
+                </span>
+              </span>
+            </button>
+            <button
+              type="button"
+              className={styles.orderTypeOption}
+              onClick={() =>
+                dispatch({ type: "SET_ORDER_TYPE", orderType: "trayBuilder" })
+              }
+            >
+              <span className={styles.optionText}>
+                <span className={styles.optionTitle}>Build your own tray</span>
+                <span className={styles.optionDesc}>
+                  Mix and match items to create a custom tray or dessert bar.
+                </span>
+                <span className={styles.optionCta}>Start building &rarr;</span>
+              </span>
+            </button>
           </div>
         </section>
+      ) : (
+        <>
+          <div className={styles.orderTypeBar}>
+            <button
+              type="button"
+              className={styles.orderTypeChange}
+              aria-label="Change order type"
+              onClick={() => {
+                setSearchParams(new URLSearchParams(), { replace: true });
+                dispatch({ type: "RESET_ORDER_TYPE" });
+              }}
+            >
+              &larr; Change order type
+            </button>
+          </div>
 
-        <aside className={styles.summaryColumn}>
-          <OrderSummary
+          {isPresetFlow ? (
+            <div className={styles.orderGrid}>
+              <section
+                className={styles.menuColumn}
+                aria-labelledby="menu-title"
+              >
+                <div className={styles.orderTypeContent}>
+                  <MenuSelector
+                    menus={menus}
+                    selectedMenuId={orderState.selectedMenuId}
+                    selectedMenu={selectedMenu}
+                    status={menuStatus}
+                    getStatus={getMenuStatus}
+                    onSelect={handleMenuSelect}
+                  />
+
+                  {hasSelectedMenu ? (
+                    <div
+                      className={styles.menuItemsSection}
+                      ref={menuItemsRef}
+                      id="menu-items"
+                    >
+                      {selectedMenu.template === "matrix" &&
+                      selectedMenu.matrix ? (
+                        <MenuMatrix
+                          menuId={selectedMenu.id}
+                          matrix={selectedMenu.matrix}
+                          quantities={orderState.matrixQuantities}
+                          onChangeQuantity={handleMatrixQuantityChange}
+                          onAddSelections={handleAddMatrixSelections}
+                          disabled={menuIsViewOnly}
+                        />
+                      ) : (
+                        <div className={styles.menuItems}>
+                          {selectedMenu.items?.map((item) => (
+                            <MenuItemCard
+                              key={item.id}
+                              item={item}
+                              isOpen={orderState.draftItemId === item.id}
+                              selectedSizeId={
+                                orderState.draftItemId === item.id
+                                  ? orderState.draftSizeId
+                                  : undefined
+                              }
+                              quantity={orderState.draftQuantity}
+                              flavor={orderState.draftFlavor}
+                              notes={orderState.draftNotes}
+                              onToggle={handleToggleItem}
+                              onSelectSize={(sizeId) =>
+                                dispatch({
+                                  type: "SET_DRAFT_ITEM",
+                                  payload: { draftSizeId: sizeId },
+                                })
+                              }
+                              onQuantityChange={(value) =>
+                                dispatch({
+                                  type: "SET_DRAFT_ITEM",
+                                  payload: { draftQuantity: value },
+                                })
+                              }
+                              onFlavorChange={(value) =>
+                                dispatch({
+                                  type: "SET_DRAFT_ITEM",
+                                  payload: { draftFlavor: value },
+                                })
+                              }
+                              onNotesChange={(value) =>
+                                dispatch({
+                                  type: "SET_DRAFT_ITEM",
+                                  payload: { draftNotes: value },
+                                })
+                              }
+                              onAdd={handleAddItem}
+                              canAdd={
+                                orderState.draftItemId === item.id
+                                  ? canAddItem
+                                  : false
+                              }
+                              isDisabled={menuIsViewOnly}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
+                </div>
+              </section>
+
+              <aside className={styles.summaryColumn}>
+                <OrderSummary
+                  lineItems={orderState.lineItems}
+                  subtotal={subtotal}
+                  onEdit={handleEditLine}
+                  onRemove={handleRemoveLine}
+                  onCheckout={handleCheckout}
+                  checkoutDisabled={!hasItems}
+                  showEmptyHint={showEmptyHint}
+                  checkoutButtonRef={checkoutButtonRef}
+                  idPrefix="summary"
+                />
+              </aside>
+            </div>
+          ) : null}
+
+          {isTrayBuilderFlow ? (
+            <section className={styles.builderOnly}>
+              <div
+                className={styles.builderPanel}
+                role="region"
+                aria-labelledby="builder-title"
+              >
+                <h3 className={styles.builderTitle} id="builder-title">
+                  Build Your Own Tray
+                </h3>
+                <p className={styles.builderText}>
+                  This builder is coming next. For now, please use Preset Menus
+                  or contact us for a custom quote.
+                </p>
+              </div>
+            </section>
+          ) : null}
+        </>
+      )}
+
+      {isPresetFlow ? (
+        <>
+          <MobileCartBar
+            itemCount={orderState.lineItems.length}
+            subtotal={subtotal}
+            onOpen={handleCheckout}
+            showHint={showEmptyHint}
+            hintText="Add at least one item to checkout."
+          />
+
+          <CheckoutModal
+            isOpen={orderState.checkoutOpen}
+            onClose={handleCloseModal}
+            returnFocusRef={checkoutButtonRef}
             lineItems={orderState.lineItems}
             subtotal={subtotal}
-            onEdit={handleEditLine}
+            onEdit={handleEditLineFromModal}
             onRemove={handleRemoveLine}
-            onCheckout={handleCheckout}
-            checkoutDisabled={!hasItems}
-            showEmptyHint={showEmptyHint}
-            checkoutButtonRef={checkoutButtonRef}
-            idPrefix="summary"
+            fulfillmentType={orderState.fulfillmentType}
+            dateNeeded={orderState.dateNeeded}
+            address={orderState.address}
+            contactMethod={orderState.contactMethod}
+            firstName={orderState.firstName}
+            lastName={orderState.lastName}
+            email={orderState.email}
+            phone={orderState.phone}
+            additionalNotes={orderState.additionalNotes}
+            onChangeFulfillmentType={(value) =>
+              dispatch({
+                type: "SET_FULFILLMENT",
+                payload: { fulfillmentType: value },
+                touchedField: "fulfillmentType",
+              })
+            }
+            onChangeDate={(value) =>
+              dispatch({
+                type: "SET_FULFILLMENT",
+                payload: { dateNeeded: value },
+              })
+            }
+            onChangeAddress={(value) =>
+              dispatch({
+                type: "SET_FULFILLMENT",
+                payload: { address: value },
+              })
+            }
+            onChangeFirstName={(value) =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: { firstName: value },
+              })
+            }
+            onChangeLastName={(value) =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: { lastName: value },
+              })
+            }
+            onChangeContactMethod={(value) =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: { contactMethod: value },
+                touchedField: "contactMethod",
+              })
+            }
+            onChangeEmail={(value) =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: { email: value },
+              })
+            }
+            onChangePhone={(value) =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: { phone: value },
+              })
+            }
+            onChangeNotes={(value) =>
+              dispatch({ type: "SET_NOTES", notes: value })
+            }
+            onBlurDate={() =>
+              dispatch({
+                type: "SET_FULFILLMENT",
+                payload: {},
+                touchedField: "dateNeeded",
+              })
+            }
+            onBlurAddress={() =>
+              dispatch({
+                type: "SET_FULFILLMENT",
+                payload: {},
+                touchedField: "address",
+              })
+            }
+            onBlurFirstName={() =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: {},
+                touchedField: "firstName",
+              })
+            }
+            onBlurLastName={() =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: {},
+                touchedField: "lastName",
+              })
+            }
+            onBlurEmail={() =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: {},
+                touchedField: "email",
+              })
+            }
+            onBlurPhone={() =>
+              dispatch({
+                type: "SET_CUSTOMER",
+                payload: {},
+                touchedField: "phone",
+              })
+            }
+            errors={errors}
+            showErrors={showErrors}
+            status={orderState.status}
+            errorMessage={orderState.errorMessage}
+            disableSubmit={
+              orderState.status === "submitting" || deliveryBlocked
+            }
+            onSubmit={handleSubmit}
           />
-        </aside>
-      </div>
-
-      <MobileCartBar
-        itemCount={orderState.lineItems.length}
-        subtotal={subtotal}
-        onOpen={handleCheckout}
-        showHint={showEmptyHint}
-        hintText="Add at least one item to checkout."
-      />
-
-      <CheckoutModal
-        isOpen={orderState.checkoutOpen}
-        onClose={handleCloseModal}
-        returnFocusRef={checkoutButtonRef}
-        lineItems={orderState.lineItems}
-        subtotal={subtotal}
-        onEdit={handleEditLineFromModal}
-        onRemove={handleRemoveLine}
-        fulfillmentType={orderState.fulfillmentType}
-        dateNeeded={orderState.dateNeeded}
-        address={orderState.address}
-        contactMethod={orderState.contactMethod}
-        firstName={orderState.firstName}
-        lastName={orderState.lastName}
-        email={orderState.email}
-        phone={orderState.phone}
-        additionalNotes={orderState.additionalNotes}
-        onChangeFulfillmentType={(value) =>
-          dispatch({
-            type: "SET_FULFILLMENT",
-            payload: { fulfillmentType: value },
-            touchedField: "fulfillmentType",
-          })
-        }
-        onChangeDate={(value) =>
-          dispatch({
-            type: "SET_FULFILLMENT",
-            payload: { dateNeeded: value },
-          })
-        }
-        onChangeAddress={(value) =>
-          dispatch({
-            type: "SET_FULFILLMENT",
-            payload: { address: value },
-          })
-        }
-        onChangeFirstName={(value) =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: { firstName: value },
-          })
-        }
-        onChangeLastName={(value) =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: { lastName: value },
-          })
-        }
-        onChangeContactMethod={(value) =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: { contactMethod: value },
-            touchedField: "contactMethod",
-          })
-        }
-        onChangeEmail={(value) =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: { email: value },
-          })
-        }
-        onChangePhone={(value) =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: { phone: value },
-          })
-        }
-        onChangeNotes={(value) => dispatch({ type: "SET_NOTES", notes: value })}
-        onBlurDate={() =>
-          dispatch({
-            type: "SET_FULFILLMENT",
-            payload: {},
-            touchedField: "dateNeeded",
-          })
-        }
-        onBlurAddress={() =>
-          dispatch({
-            type: "SET_FULFILLMENT",
-            payload: {},
-            touchedField: "address",
-          })
-        }
-        onBlurFirstName={() =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: {},
-            touchedField: "firstName",
-          })
-        }
-        onBlurLastName={() =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: {},
-            touchedField: "lastName",
-          })
-        }
-        onBlurEmail={() =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: {},
-            touchedField: "email",
-          })
-        }
-        onBlurPhone={() =>
-          dispatch({
-            type: "SET_CUSTOMER",
-            payload: {},
-            touchedField: "phone",
-          })
-        }
-        errors={errors}
-        showErrors={showErrors}
-        status={orderState.status}
-        errorMessage={orderState.errorMessage}
-        disableSubmit={orderState.status === "submitting" || deliveryBlocked}
-        onSubmit={handleSubmit}
-      />
+        </>
+      ) : null}
 
       {showMenuConfirm ? (
         <div

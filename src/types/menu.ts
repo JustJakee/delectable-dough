@@ -77,6 +77,8 @@ export type Menu = CatalogMenu | MatrixMenu;
 
 export type LineItemSource = "catalog" | "matrix";
 
+export type OrderType = "unset" | "preset" | "trayBuilder";
+
 export type LineItem = {
   lineId: string;
   menuId: string;
@@ -104,6 +106,7 @@ export type OrderTouched = {
 };
 
 export type OrderState = {
+  orderType: OrderType;
   selectedMenuId: string;
   draftItemId?: string;
   draftSizeId?: string;

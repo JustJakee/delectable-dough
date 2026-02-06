@@ -111,27 +111,32 @@ type MenuSelectorProps = {
 export default function MenuSelector(props: MenuSelectorProps) {
   const { menus, selectedMenuId, selectedMenu, status, getStatus, onSelect } =
     props;
+  const hasSelection = menus.some((menu) => menu.id === selectedMenuId);
   const showSpecialRequest =
-    status === "requestOnly" || status === "outOfSeason";
-  const showViewOnly = status === "viewOnly";
-  const availabilityDetail =
-    getSeasonLabel(selectedMenu) ||
-    selectedMenu.availabilityNote ||
-    "Year-round";
-  const minimumDetail = selectedMenu.minimumOrderNote || "No minimum";
+    hasSelection && (status === "requestOnly" || status === "outOfSeason");
+  const showViewOnly = hasSelection && status === "viewOnly";
+  const availabilityDetail = hasSelection
+    ? getSeasonLabel(selectedMenu) ||
+      selectedMenu.availabilityNote ||
+      "Year-round"
+    : "";
+  const minimumDetail = hasSelection
+    ? selectedMenu.minimumOrderNote || "No minimum"
+    : "";
 
   return (
     <div className={styles.menuSelector}>
-      <label className={styles.menuLabel} id="menu-select-label">
+      <label className={styles.srOnly} id="menu-select-label">
         Choose a menu to get started
       </label>
       <Select
         className={styles.select}
         popupClassName={styles.dropdown}
-        value={selectedMenuId}
+        value={hasSelection ? selectedMenuId : undefined}
         onChange={(value) => onSelect(value)}
         optionLabelProp="label"
         aria-labelledby="menu-select-label"
+        placeholder="Choose a menu to get started"
       >
         {menus.map((menu) => {
           const baseStatus = getStatus(menu);
@@ -189,33 +194,35 @@ export default function MenuSelector(props: MenuSelectorProps) {
         })}
       </Select>
 
-      <section className={styles.menuInfoCard} aria-label="Menu information">
-        {selectedMenu.description ? (
-          <p className={styles.menuInfoDescription}>
-            {selectedMenu.description}
-          </p>
-        ) : null}
-        <div className={styles.menuInfoDetails}>
-          <div className={styles.menuInfoDetail}>
-            <span className={styles.menuInfoLabel}>Availability</span>
-            <span className={styles.menuInfoValue}>{availabilityDetail}</span>
+      {hasSelection ? (
+        <section className={styles.menuInfoCard} aria-label="Menu information">
+          {selectedMenu.description ? (
+            <p className={styles.menuInfoDescription}>
+              {selectedMenu.description}
+            </p>
+          ) : null}
+          <div className={styles.menuInfoDetails}>
+            <div className={styles.menuInfoDetail}>
+              <span className={styles.menuInfoLabel}>Availability</span>
+              <span className={styles.menuInfoValue}>{availabilityDetail}</span>
+            </div>
+            <div className={styles.menuInfoDetail}>
+              <span className={styles.menuInfoLabel}>Minimum</span>
+              <span className={styles.menuInfoValue}>{minimumDetail}</span>
+            </div>
           </div>
-          <div className={styles.menuInfoDetail}>
-            <span className={styles.menuInfoLabel}>Minimum</span>
-            <span className={styles.menuInfoValue}>{minimumDetail}</span>
-          </div>
-        </div>
-        {showViewOnly ? (
-          <p className={styles.menuInfoNotice}>
-            Call or email to request this menu.
-          </p>
-        ) : null}
-        {!showViewOnly && showSpecialRequest ? (
-          <p className={styles.menuInfoNotice}>
-            We&apos;ll confirm availability and follow up with an invoice.
-          </p>
-        ) : null}
-      </section>
+          {showViewOnly ? (
+            <p className={styles.menuInfoNotice}>
+              Call or email to request this menu.
+            </p>
+          ) : null}
+          {!showViewOnly && showSpecialRequest ? (
+            <p className={styles.menuInfoNotice}>
+              We&apos;ll confirm availability and follow up with an invoice.
+            </p>
+          ) : null}
+        </section>
+      ) : null}
     </div>
   );
 }
