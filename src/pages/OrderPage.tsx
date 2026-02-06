@@ -141,21 +141,6 @@ const getMenuStatus = (menu: Menu): MenuStatus => {
   return "available";
 };
 
-const getMenuStatusLabel = (status: MenuStatus) => {
-  switch (status) {
-    case "available":
-      return "Available";
-    case "requestOnly":
-      return "Special request";
-    case "viewOnly":
-      return "Call to request";
-    case "outOfSeason":
-      return "Out of season";
-    default:
-      return "Available";
-  }
-};
-
 const buildInitialState = (menuId?: string): OrderState => ({
   orderType: "unset",
   selectedMenuId: menuId ?? menus[0]?.id ?? "",
